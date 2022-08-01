@@ -8,7 +8,7 @@
 
 import UIKit
 
-class CoinViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, CoinManagerDelegate {
+class CoinViewController: UIViewController {
     
 
     @IBOutlet weak var bitcoinLabel: UILabel!
@@ -25,7 +25,12 @@ class CoinViewController: UIViewController, UIPickerViewDataSource, UIPickerView
         currencyPicker.dataSource = self
         currencyPicker.delegate = self
     }
+}
 
+//MARK: - UIPickerViewDelegate, UIPickerViewDataSource
+
+extension CoinViewController: UIPickerViewDelegate, UIPickerViewDataSource {
+    
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
     }
@@ -42,7 +47,12 @@ class CoinViewController: UIViewController, UIPickerViewDataSource, UIPickerView
         let selectedRow = coinManager.currencyArray[row]
         coinManager.getCoinPrice(for: selectedRow)
     }
+}
 
+//MARK: - CoinManagerDelegate
+
+extension CoinViewController: CoinManagerDelegate {
+    
     func didUpdatePrice(price: String, currency: String) {
         DispatchQueue.main.async {
             self.bitcoinLabel.text = price
@@ -54,4 +64,3 @@ class CoinViewController: UIViewController, UIPickerViewDataSource, UIPickerView
         print(error)
     }
 }
-
